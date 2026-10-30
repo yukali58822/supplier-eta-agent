@@ -1,0 +1,109 @@
+{
+ "doctype": "DocType",
+ "name": "ETA Operation Log",
+ "module": "Supplier ETA",
+ "custom": 0,
+ "istable": 0,
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "autoname": "field:op_id",
+ "naming_rule": "By fieldname",
+ "track_changes": 1,
+ "field_order": [
+  "op_id",
+  "status",
+  "mode",
+  "message_id",
+  "case_id",
+  "payload",
+  "changes"
+ ],
+ "fields": [
+  {
+   "fieldname": "op_id",
+   "fieldtype": "Data",
+   "label": "Operation ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Done",
+   "default": "Done"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode",
+   "options": "auto\napproved"
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message-ID",
+   "search_index": 1
+  },
+  {
+   "fieldname": "case_id",
+   "fieldtype": "Link",
+   "label": "Case",
+   "options": "Supplier ETA Case"
+  },
+  {
+   "fieldname": "payload",
+   "fieldtype": "Code",
+   "label": "Payload",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "changes",
+   "fieldtype": "Code",
+   "label": "Changes (before/after)",
+   "options": "JSON"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "Purchase Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "ETA Agent",
+   "read": 1,
+   "write": 0,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "in_create": 1
+}

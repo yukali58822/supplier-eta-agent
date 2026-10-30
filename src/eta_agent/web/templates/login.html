@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}登入｜交期確認工作台{% endblock %}
+{% block content %}
+<div class="login card">
+  <h1>交期確認工作台</h1>
+  <p class="sub">查看供應商回信的處理結果，審核會影響交期的變更。</p>
+  {% if error %}<div class="flash bad">{{ error }}</div>{% endif %}
+  {% if erpnext %}
+  <form method="post" action="/login">
+    <label for="usr">ERPNext 帳號</label>
+    <input id="usr" name="usr" type="text" autocomplete="username" required>
+    <label for="pwd">密碼</label>
+    <input id="pwd" name="pwd" type="password" autocomplete="current-password" required>
+    <p class="small muted">使用你在 {{ erpnext_url }} 的帳號登入；權限依 ERPNext 的角色決定。</p>
+    <button class="primary" type="submit">登入</button>
+  </form>
+  {% endif %}
+  {% if demos %}
+  <h2>示範模式</h2>
+  <p class="small muted">目前沒有連 ERPNext（ERP_BACKEND=fake），選一個示範帳號登入：</p>
+  <div class="demo-users">
+    {% for d in demos %}
+    <form method="post" action="/login/demo">
+      <input type="hidden" name="user" value="{{ d.email }}">
+      <button type="submit" style="width:100%">{{ d.email }}　<span class="muted small">{{ d.roles|join('、') }}</span></button>
+    </form>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

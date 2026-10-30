@@ -1,0 +1,1414 @@
+[
+ {
+  "id": "B01",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B02",
+  "expected": "auto",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    0,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B03",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B04",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "price": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B05",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B06",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B07",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B08",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B09",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B10",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B11",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B12",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B13",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B14",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B15",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B16",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B17",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "price": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B18",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "price": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B19",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B20",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B21",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    2,
+    2
+   ],
+   "qty": [
+    2,
+    2
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B22",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    2,
+    2
+   ],
+   "qty": [
+    2,
+    2
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B23",
+  "expected": "auto",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    0,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B24",
+  "expected": "manual",
+  "got": "manual",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "B25",
+  "expected": "manual",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    0,
+    1
+   ],
+   "route": [
+    0,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T01",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T02",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T03",
+  "expected": "auto",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    0,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T04",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T05",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T06",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T07",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T08",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T09",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "T10",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H01",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H02",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H03",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H04",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H05",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    2,
+    2
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H06",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    2,
+    2
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H07",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "H08",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    2,
+    2
+   ],
+   "qty": [
+    2,
+    2
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "S01",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "shortage": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "S02",
+  "expected": "auto",
+  "got": "auto",
+  "auto_applied": true,
+  "score": {
+   "intent": [
+    0,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "shortage": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "S03",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "shortage": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "S04",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "shortage": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "N01",
+  "expected": "stop",
+  "got": "stop",
+  "auto_applied": false,
+  "score": {
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "N02",
+  "expected": "review",
+  "got": "review",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "match": [
+    1,
+    1
+   ],
+   "date": [
+    1,
+    1
+   ],
+   "qty": [
+    1,
+    1
+   ],
+   "impact": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "id": "N03",
+  "expected": "manual",
+  "got": "manual",
+  "auto_applied": false,
+  "score": {
+   "intent": [
+    1,
+    1
+   ],
+   "route": [
+    1,
+    1
+   ]
+  }
+ }
+]

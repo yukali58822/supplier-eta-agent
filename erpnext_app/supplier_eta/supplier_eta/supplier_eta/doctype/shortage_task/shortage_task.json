@@ -1,0 +1,157 @@
+{
+ "doctype": "DocType",
+ "name": "Shortage Task",
+ "module": "Supplier ETA",
+ "custom": 0,
+ "istable": 0,
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "autoname": "format:ST-{####}",
+ "naming_rule": "Expression",
+ "track_changes": 1,
+ "field_order": [
+  "status",
+  "supplier",
+  "purchase_order",
+  "po_item",
+  "item_code",
+  "qty",
+  "required_date",
+  "assigned_to",
+  "committed_date",
+  "source_case",
+  "closed_by_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nClosed\nCancelled",
+   "default": "Open",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "label": "Purchase Order",
+   "options": "Purchase Order",
+   "reqd": 1
+  },
+  {
+   "fieldname": "po_item",
+   "fieldtype": "Data",
+   "label": "Purchase Order Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Shortage Qty",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "required_date",
+   "fieldtype": "Date",
+   "label": "Required Date",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "committed_date",
+   "fieldtype": "Date",
+   "label": "Committed Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_case",
+   "fieldtype": "Link",
+   "label": "Source Case",
+   "options": "Supplier ETA Case",
+   "read_only": 1
+  },
+  {
+   "fieldname": "closed_by_message",
+   "fieldtype": "Data",
+   "label": "Closed By Message",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "Purchase Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "Purchase User",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "ETA Agent",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

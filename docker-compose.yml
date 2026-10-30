@@ -1,0 +1,175 @@
+x-erpnext-image: &erpnext_image
+  build:
+    context: .
+    dockerfile: docker/erpnext.Dockerfile
+    args:
+      ERPNEXT_VERSION: ${ERPNEXT_VERSION:-v15.38.0}
+  image: supplier-eta/erpnext:${ERPNEXT_VERSION:-v15.38.0}
+
+x-backend: &backend
+  <<: *erpnext_image
+  volumes:
+    - sites:/home/frappe/frappe-bench/sites
+  depends_on:
+    configurator:
+      condition: service_completed_successfully
+
+services:
+  db:
+    image: mariadb:10.6
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
+    healthcheck:
+      test: mysqladmin ping -h localhost --password=${DB_ROOT_PASSWORD:-admin}
+      interval: 5s
+      retries: 30
+    volumes:
+      - db-data:/var/lib/mysql
+
+  redis-cache:
+    image: redis:6.2-alpine
+  redis-queue:
+    image: redis:6.2-alpine
+    volumes:
+      - redis-queue-data:/data
+
+  configurator:
+    <<: *erpnext_image
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host db;
+        bench set-config -gp db_port 3306;
+        bench set-config -g redis_cache "redis://redis-cache:6379";
+        bench set-config -g redis_queue "redis://redis-queue:6379";
+        bench set-config -g redis_socketio "redis://redis-queue:6379";
+        bench set-config -gp socketio_port 9000;
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+
+  create-site:
+    <<: *backend
+    entrypoint: ["bash", "-c"]
+    environment:
+      ETA_WEBHOOK_SECRET: ${ETA_WEBHOOK_SECRET:-change-me-in-production}
+      ETA_KEYS_PATH: /home/frappe/frappe-bench/sites/eta_agent_keys.json
+    command:
+      - >
+        wait-for-it -t 120 db:3306;
+        wait-for-it -t 120 redis-cache:6379;
+        wait-for-it -t 120 redis-queue:6379;
+        if [ ! -d sites/frontend ]; then
+          bench new-site --no-mariadb-socket --admin-password=${ADMIN_PASSWORD:-admin}
+            --db-root-password=${DB_ROOT_PASSWORD:-admin} --install-app erpnext --set-default frontend;
+        fi;
+        bench --site frontend install-app supplier_eta || true;
+        bench --site frontend migrate;
+        bench --site frontend set-config eta_agent_url http://agent:8000;
+        bench --site frontend set-config eta_webhook_secret "$${ETA_WEBHOOK_SECRET}";
+        bench --site frontend set-config -p eta_stock_warehouses '["Stores - TC"]';
+        bench --site frontend execute supplier_eta.setup.seed.run;
+        chmod 644 sites/eta_agent_keys.json;
+        echo "ERPNext 初始化完成";
+
+  backend:
+    <<: *backend
+    depends_on:
+      create-site:
+        condition: service_completed_successfully
+
+  websocket:
+    <<: *backend
+    command: ["node", "/home/frappe/frappe-bench/apps/frappe/socketio.js"]
+
+  queue-short:
+    <<: *backend
+    command: bench worker --queue short,default
+
+  queue-long:
+    <<: *backend
+    command: bench worker --queue long,default,short
+
+  scheduler:
+    <<: *backend
+    command: bench schedule
+
+  frontend:
+    <<: *backend
+    command: nginx-entrypoint.sh
+    environment:
+      BACKEND: backend:8000
+      FRAPPE_SITE_NAME_HEADER: frontend
+      SOCKETIO: websocket:9000
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: 120
+      CLIENT_MAX_BODY_SIZE: 50m
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+      - websocket
+
+  agent-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: ${AGENT_DB_PASSWORD:-agent}
+      POSTGRES_DB: agent
+    healthcheck:
+      test: pg_isready -U agent
+      interval: 5s
+      retries: 20
+    volumes:
+      - agent-db-data:/var/lib/postgresql/data
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ERP_BACKEND: erpnext
+      ERPNEXT_URL: http://frontend:8080
+      ETA_KEYS_PATH: /keys/eta_agent_keys.json
+      DATABASE_URL: postgresql://agent:${AGENT_DB_PASSWORD:-agent}@agent-db:5432/agent
+      ETA_WEBHOOK_SECRET: ${ETA_WEBHOOK_SECRET:-change-me-in-production}
+      ALLOW_DEMO_AUTH: "0"
+      EXTRACTOR: ${EXTRACTOR:-llm}
+      LLM_MODEL: ${LLM_MODEL:-ollama:qwen2.5:7b}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL_DOCKER:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - sites:/keys:ro
+    ports:
+      - "8000:8000"
+    depends_on:
+      agent-db:
+        condition: service_healthy
+      create-site:
+        condition: service_completed_successfully
+      frontend:
+        condition: service_started
+
+volumes:
+  db-data:
+  redis-queue-data:
+  sites:
+  agent-db-data:

@@ -1,0 +1,90 @@
+roles:
+  eta_agent:
+    purposes:
+      - match_po
+      - impact_analysis
+      - writeback
+      - shortage_tracking
+  purchase_user:
+    purposes: [review]
+  purchase_manager:
+    purposes: [review, approve]
+
+doctypes:
+
+  Purchase Order:
+    name:          {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*, purchase_user:*]}
+    supplier:      {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*, purchase_user:*]}
+    modified:      {level: L1, llm: deny,  read: [eta_agent:*]}
+    docstatus:     {level: L1, llm: deny,  read: [eta_agent:*]}
+    status:        {level: L1, llm: deny,  read: [eta_agent:*]}
+    discount_amount: {level: L2, llm: forbid, read: []}
+    grand_total:   {level: L2, llm: forbid, read: [purchase_manager:*]}
+
+  Purchase Order Item:
+    name:          {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    parent:        {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    item_code:     {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    supplier_part_no: {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    qty:           {level: L1, llm: deny,  read: [eta_agent:*, purchase_manager:*], write: true}
+    received_qty:  {level: L1, llm: deny,  read: [eta_agent:*, purchase_manager:*]}
+    schedule_date: {level: L1, llm: deny,  read: [eta_agent:*, purchase_manager:*], write: true}
+    rate:          {level: L2, llm: deny,  read: [eta_agent:match_po, eta_agent:writeback, purchase_manager:*], write: true}
+    amount:        {level: L2, llm: deny,  read: [purchase_manager:*]}
+    discount_amount: {level: L2, llm: forbid, read: []}
+
+  Supplier:
+    name:          {level: L1, llm: allow, read: [eta_agent:*]}
+    supplier_name: {level: L1, llm: allow, read: [eta_agent:*]}
+    custom_eta_email: {level: L1, llm: deny, read: [eta_agent:*]}
+    custom_transit_days: {level: L1, llm: deny, read: [eta_agent:*]}
+    mobile_no:     {level: L3, llm: forbid, read: []}
+
+  Item:
+    name:          {level: L1, llm: allow, read: [eta_agent:*]}
+    item_name:     {level: L0, llm: allow, read: [eta_agent:*]}
+    custom_inspection_category: {level: L1, llm: deny, read: [eta_agent:*]}
+    custom_production_days:     {level: L1, llm: deny, read: [eta_agent:*]}
+    custom_test_pack_ship_days: {level: L1, llm: deny, read: [eta_agent:*]}
+    valuation_rate: {level: L2, llm: forbid, read: []}
+
+  Work Order:
+    name:          {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    production_item: {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    qty:           {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    planned_start_date: {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    sales_order:   {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    required_items: {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+
+  Sales Order:
+    name:          {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    customer:      {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    delivery_date: {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    customer_contact_email: {level: L3, llm: forbid, read: []}
+
+  Bin:
+    item_code:     {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    actual_qty:    {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+    reserved_qty:  {level: L1, llm: deny, read: [eta_agent:impact_analysis]}
+
+  Shortage Task:
+    name:          {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    supplier:      {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*]}
+    purchase_order: {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    po_item:       {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*]}
+    item_code:     {level: L1, llm: allow, read: [eta_agent:*, purchase_manager:*]}
+    qty:           {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*]}
+    required_date: {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*]}
+    status:        {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*], write: true}
+    assigned_to:   {level: L1, llm: deny, read: [eta_agent:*, purchase_manager:*]}
+
+  Credentials:
+    api_token:     {level: L3, llm: forbid, read: []}
+    api_secret:    {level: L3, llm: forbid, read: []}
+
+redact_patterns:
+  tw_national_id: '\b[A-Z][12]\d{8}\b'
+  phone: '(?:\+?886[- ]?|0)9\d{2}[- ]?\d{3}[- ]?\d{3}'
+  landline: '\b0\d{1,2}-\d{3,4}-\d{4}\b'
+  api_key: '\b(?:sk|api|key|token)[-_][A-Za-z0-9_\-]{12,}\b'
+  password_line: '(?im)^.*(?:password|密碼)\s*[:：].*$'

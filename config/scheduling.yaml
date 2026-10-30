@@ -1,0 +1,13 @@
+holiday_list: "TW 2026"
+
+inspection_days:
+  default: 1
+  MCU: 2
+
+prep_days: 1
+
+default_product:
+  production_days: 5
+  test_pack_ship_days: 2
+
+default_transit_days: 3

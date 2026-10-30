@@ -1,0 +1,14 @@
+auto_intents: [confirm, date_change]
+
+max_delay_days: 2
+max_advance_days: 2
+
+min_llm_confidence: 0.85
+
+required_impact_confidence: high
+
+allow_inferred_po: false
+
+shortage:
+  auto_close_when_on_time: true
+

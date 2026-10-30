@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block title %}{{ c.subject or '信件' }}｜交期確認工作台{% endblock %}
+{% block content %}
+<p class="small"><a href="/">← 回到待審核</a></p>
+<h1>{{ c.supplier or c.sender }}：{{ c.subject }}</h1>
+<p class="sub">
+  <span class="badge {{ c.status[1] }}">{{ c.status[0] }}</span>
+  {% if c.case_status %}<span class="badge {{ c.case_status[1] }}">案件 {{ c.case_id }}：{{ c.case_status[0] }}</span>{% endif %}
+  　處理方式：{{ c.route }}
+  {% if erpnext_case_url %}　<a href="{{ erpnext_case_url }}" target="_blank" rel="noopener">在 ERPNext 開啟案件 ↗</a>{% endif %}
+</p>
+
+{% if c.reasons %}
+<div class="card why">
+  <h2>{% if c.waiting %}為什麼需要你審核{% elif c.failed %}失敗原因{% else %}判斷理由{% endif %}</h2>
+  <ul class="reasons">{% for r in c.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+{% if c.can_decide %}
+<div class="card decide">
+  <h2>你的決定</h2>
+  {% if c.actions %}
+  <p class="small">核准後，系統會做以下修改（寫入前會再確認採購單沒有被別人改過）：</p>
+  <ul class="reasons">{% for a in c.actions %}<li>{{ a }}</li>{% endfor %}</ul>
+  {% endif %}
+  <div class="row">
+    <form method="post" action="/emails/{{ c.message_id|urlencode }}/approve">
+      <input type="hidden" name="csrf" value="{{ user.csrf }}">
+      <button class="approve" type="submit">核准並寫回 ERPNext</button>
+    </form>
+    <form method="post" action="/emails/{{ c.message_id|urlencode }}/reject">
+      <input type="hidden" name="csrf" value="{{ user.csrf }}">
+      <label for="reason">拒絕原因（必填）</label>
+      <textarea id="reason" name="reason" placeholder="例如：已和供應商協調改為 11/6 到貨，請採購重新確認"></textarea>
+      <button class="reject" type="submit">拒絕，不修改採購單</button>
+    </form>
+  </div>
+</div>
+{% elif c.can_apply_decision %}
+<div class="card decide">
+  <h2>主管已在 ERPNext 做出決定</h2>
+  <p class="small">案件 {{ c.case_id }} 在 ERPNext 已是「{{ c.case_status[0] }}」。按下面的按鈕，讓系統依這個決定接著處理。</p>
+  <form method="post" action="/emails/{{ c.message_id|urlencode }}/apply-decision">
+    <input type="hidden" name="csrf" value="{{ user.csrf }}">
+    <button class="primary" type="submit">套用主管決定</button>
+  </form>
+</div>
+{% elif c.waiting and not user.is_manager %}
+<div class="card"><p class="muted small">這個案件等待採購主管決定。你可以查看內容，但不能核准或拒絕。</p></div>
+{% endif %}
+{% if c.can_reprocess %}
+<div class="card decide">
+  {% if c.expired %}
+  <h2>核准已失效</h2>
+  <p class="small">分析之後，採購單的數量、交期或單價被修改過，原本的判斷可能不再正確，所以系統沒有寫入。
+    重新分析會用 ERPNext 現在的資料再算一次，必要時重新送審。</p>
+  {% elif c.interrupted %}
+  <h2>處理到一半中斷了</h2>
+  <p class="small">系統讀這封信時，程式被關掉或重新啟動（例如按了 Ctrl+C），所以停在「處理中」。
+    還沒有寫入 ERPNext。網頁服務下次啟動時會自動重新分析；也可以現在按下面的按鈕。</p>
+  {% else %}
+  <h2>重新分析這封信</h2>
+  {% if c.retry %}
+  {% if c.retry.next_at %}
+  <p class="small">系統會自動重試：已試 {{ c.retry.attempts }} / {{ c.retry.max }} 次，下次約在
+    <strong>{{ c.retry.next_at|dt }}</strong>。不想等的話，也可以現在按下面的按鈕。</p>
+  {% else %}
+  <p class="flash bad small">已自動重試 {{ c.retry.attempts }} 次仍然失敗，系統不再自動重試。
+    請先排除問題（例如確認 Ollama、ERPNext 有開），再按下面的按鈕。</p>
+  {% endif %}
+  {% else %}
+  <p class="small">這封信目前轉給人工處理。如果是暫時性的問題（例如 Ollama 沒開、ERPNext 連不上），
+    排除後可以按下面的按鈕，用同一封信重新讀信、分析。</p>
+  {% endif %}
+  {% endif %}
+  <form method="post" action="/emails/{{ c.message_id|urlencode }}/reprocess">
+    <input type="hidden" name="csrf" value="{{ user.csrf }}">
+    <button class="primary" type="submit">重新分析</button>
+  </form>
+</div>
+{% endif %}
+
+{% if c.impact %}
+<div class="card">
+  <h2>影響分析：<span class="badge {{ c.impact.label[1] }}">{{ c.impact.label[0] }}</span>
+    <span class="muted small">信心 {{ c.impact.confidence }}</span></h2>
+  {% for o in c.impact.affected %}
+  <div class="order-head">
+    <strong>工單 {{ o.work_order }}</strong>
+    {% if o.sales_order %}<span class="muted">→ 客戶訂單 {{ o.sales_order }}</span>{% endif %}
+    {% if o.no_date %}<span class="delay">缺料且沒有承諾到貨日，無法估算</span>
+    {% elif o.delay_workdays %}<span class="delay">預估延誤 {{ o.delay_workdays }} 個工作天</span>
+    {% else %}<span class="badge ok">趕得上客戶交期</span>{% endif %}
+  </div>
+  {% if not o.no_date %}
+  <div class="steps">
+    {% for s in o.steps %}
+      {% if not loop.first %}<div class="arrow">→</div>{% endif %}
+      <div class="step {{ 'bad' if s.bad }}"><div class="l">{{ s.label }}</div><div class="v">{{ s.value }}</div><div class="n">{{ s.note }}</div></div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <p class="small muted">缺料：{{ o.short_items|join('、') }}</p>
+  {% else %}
+  <ul class="reasons">{% for r in c.impact.reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+  {% endfor %}
+  <p class="est">這是依工作日曆與標準天數的估算，不是 ERPNext 的正式排程（產能視為無限）。</p>
+  <details><summary>計算依據與假設</summary>
+    <ul class="reasons small">{% for b in c.impact.basis %}<li>{{ b }}</li>{% endfor %}
+      {% for a in c.impact.assumptions %}<li class="muted">假設：{{ a }}</li>{% endfor %}</ul>
+  </details>
+</div>
+{% endif %}
+
+<div class="grid2">
+  <div class="card">
+    <h2>原始信件</h2>
+    <dl class="kv"><dt>寄件者</dt><dd>{{ c.sender }}</dd><dt>信件日期</dt><dd>{{ c.email_date }}</dd></dl>
+    {% if c.has_body or c.quoted %}
+    <p class="small muted">黃色標示是系統讀信時引用的原文。</p>
+    <div class="mail">{{ c.body_html }}</div>
+    {% if c.attachments %}<p class="small"><strong>附件：</strong>{{ c.attachments|join('、') }}
+      <span class="muted">（系統不讀附件內容）</span></p>{% endif %}
+    {% if c.quoted %}
+    <details>
+      <summary>信件下方引用的舊信（系統沒有分析這段）</summary>
+      <div class="mail muted">{{ c.quoted }}</div>
+    </details>
+    {% endif %}
+    {% else %}<p class="muted small">沒有保存這封信的內文（較早處理的信件）。</p>{% endif %}
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>系統讀到的內容</h2>
+      {% if c.stop_reason %}<p class="flash bad small">{{ c.stop_reason }}</p>{% endif %}
+      <dl class="kv"><dt>意圖</dt><dd>{{ c.intent }}</dd>
+        {% if c.confidence is not none %}<dt>擷取信心</dt><dd>{{ '%.2f'|format(c.confidence) }}</dd>{% endif %}</dl>
+      {% if c.lines %}
+      <div class="table-wrap"><table>
+        <thead><tr><th>採購單</th><th>料號</th><th>數量</th><th>日期原文</th><th>日期種類</th></tr></thead>
+        <tbody>{% for l in c.lines %}<tr><td class="small">{{ l.po_number or '—' }}</td><td>{{ l.item_code or '—' }}</td>
+          <td>{{ l.qty_text or '—' }}</td><td>{{ l.date_text or '—' }}</td><td>{{ l.kind }}</td></tr>{% endfor %}</tbody>
+      </table></div>
+      {% endif %}
+      {% for a in c.assumptions %}<p class="small muted">{{ a }}</p>{% endfor %}
+    </div>
+    {% if c.diffs %}
+    <div class="card">
+      <h2>跟 ERPNext 採購單比對</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>採購單 / 料號</th><th>原交期</th><th>新到貨日</th><th>差異</th><th>剩餘未交</th></tr></thead>
+        <tbody>{% for d in c.diffs %}<tr>
+          <td class="small">{{ d.po }}<br><strong>{{ d.item_code }}</strong>{% if d.shortage_task %}<br><span class="badge">補料 {{ d.shortage_task }}</span>{% endif %}</td>
+          <td>{{ d.original_md }}</td><td>{{ d.new_md }}</td>
+          <td class="num">{% if d.date_diff_days is none %}—{% elif d.date_diff_days > 0 %}<span class="delay">晚 {{ d.date_diff_days }} 天</span>{% elif d.date_diff_days < 0 %}早 {{ -d.date_diff_days }} 天{% else %}相同{% endif %}
+            {% if d.cumulative_diff_days is not none %}<br><span class="small muted">累計 {{ '%+d'|format(d.cumulative_diff_days) }} 天（基準 {{ d.baseline_md }}）</span>{% endif %}</td>
+          <td class="num">{{ '%g'|format(d.remaining_qty) }}{% if d.stated_qty is not none and d.stated_qty != d.remaining_qty %}<br><span class="muted small">信中 {{ '%g'|format(d.stated_qty) }}</span>{% endif %}</td>
+        </tr>{% endfor %}</tbody>
+      </table></div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% if c.changes %}
+<div class="card">
+  <h2>已寫回 ERPNext 的修改</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>單據</th><th>修改前</th><th>修改後</th></tr></thead>
+    <tbody>{% for ch in c.changes %}<tr><td class="small">{{ ch.doctype }} {{ ch.name }}</td>
+      <td class="small">{% if ch.created %}—{% else %}{% for k, v in (ch.before or {}).items() %}{{ k }}：{{ v }}<br>{% endfor %}{% endif %}</td>
+      <td class="small">{% if ch.created %}新建立{% else %}{% for k, v in (ch.after or {}).items() %}{{ k }}：{{ v }}<br>{% endfor %}{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% elif c.result_reason and not c.waiting %}
+<div class="card"><h2>處理結果</h2><p class="small">{{ c.result_reason }}</p></div>
+{% endif %}
+
+<div class="card">
+  <details><summary>處理紀錄（稽核）共 {{ c.audit|length }} 筆</summary>
+    <div class="table-wrap"><table><tbody>
+      {% for e in c.audit %}<tr><td class="num muted small">{{ e.at|dt }}</td><td>{{ e.event }}</td><td class="small muted">{{ e.actor }}</td></tr>{% endfor %}
+    </tbody></table></div>
+  </details>
+</div>
+{% endblock %}

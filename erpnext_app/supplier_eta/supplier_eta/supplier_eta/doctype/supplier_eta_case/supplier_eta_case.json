@@ -1,0 +1,157 @@
+{
+ "doctype": "DocType",
+ "name": "Supplier ETA Case",
+ "module": "Supplier ETA",
+ "custom": 0,
+ "istable": 0,
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "autoname": "format:ETA-CASE-{####}",
+ "naming_rule": "Expression",
+ "track_changes": 1,
+ "field_order": [
+  "status",
+  "supplier",
+  "message_id",
+  "approver",
+  "summary_section",
+  "summary",
+  "reasons",
+  "changes_section",
+  "proposed_changes",
+  "base_versions",
+  "applied_op_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected\nExpired\nApplied",
+   "default": "Pending",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1,
+   "allow_on_submit": 0
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message-ID",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "approver",
+   "fieldtype": "Link",
+   "label": "Approver",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "summary_section",
+   "fieldtype": "Section Break",
+   "label": "判斷摘要"
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Long Text",
+   "label": "Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reasons",
+   "fieldtype": "Code",
+   "label": "Reasons (JSON)",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "changes_section",
+   "fieldtype": "Section Break",
+   "label": "提議異動"
+  },
+  {
+   "fieldname": "proposed_changes",
+   "fieldtype": "Code",
+   "label": "Proposed Changes (JSON)",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "base_versions",
+   "fieldtype": "Code",
+   "label": "Base Versions (JSON)",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "applied_op_id",
+   "fieldtype": "Data",
+   "label": "Applied Operation",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "Purchase Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "Purchase User",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  },
+  {
+   "role": "ETA Agent",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0,
+   "print": 0,
+   "email": 0,
+   "share": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "supplier"
+}

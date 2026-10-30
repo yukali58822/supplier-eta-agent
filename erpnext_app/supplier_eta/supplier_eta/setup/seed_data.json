@@ -1,0 +1,57 @@
+{
+  "company": {"name": "Taiwan Components Co.", "abbr": "TC", "country": "Taiwan", "currency": "TWD"},
+  "warehouse": "Stores - TC",
+  "holiday_list": {"name": "TW 2026", "from_date": "2026-01-01", "to_date": "2026-12-31",
+    "weekly_off": ["Saturday", "Sunday"],
+    "holidays": ["2026-01-01","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-27",
+                 "2026-04-03","2026-04-06","2026-05-01","2026-06-19","2026-09-25","2026-09-28",
+                 "2026-10-09","2026-10-26","2026-12-25"]},
+  "users": [
+    {"email": "agent@example.com", "first_name": "ETA Agent", "roles": ["ETA Agent"]},
+    {"email": "buyer@example.com", "first_name": "Buyer Lin", "roles": ["Purchase User"]},
+    {"email": "manager@example.com", "first_name": "Manager Chen", "roles": ["Purchase User", "Purchase Manager"]}
+  ],
+  "suppliers": [
+    {"name": "SUP-ACME", "supplier_name": "Acme Passive Components", "email": "sales@acme-passive.com.tw", "transit_days": 2},
+    {"name": "SUP-MCU", "supplier_name": "Formosa MCU Supply", "email": "delivery@formosa-mcu.com.tw", "transit_days": 3},
+    {"name": "SUP-PCB", "supplier_name": "Hsinchu PCB Works", "email": "pcb@hc-pcb.com.tw", "transit_days": 1},
+    {"name": "SUP-CONN", "supplier_name": "Delta Connectors", "email": "cs@delta-conn.com", "transit_days": null}
+  ],
+  "customers": ["Northwind Gateways", "Contoso IoT"],
+  "items": [
+    {"item_code": "GW-200", "item_name": "Gateway GW-200", "is_stock_item": 1, "category": null, "production_days": 5, "test_pack_ship_days": 2},
+    {"item_code": "MCU-STM32", "item_name": "MCU 32-bit", "category": "MCU", "supplier": "SUP-MCU", "supplier_part_no": "FM-32F4"},
+    {"item_code": "CAP-100UF", "item_name": "Capacitor 100uF", "category": null, "supplier": "SUP-ACME", "supplier_part_no": "AC-C100"},
+    {"item_code": "RES-10K", "item_name": "Resistor 10K", "category": null, "supplier": "SUP-ACME", "supplier_part_no": "AC-R10K"},
+    {"item_code": "PCB-GW200", "item_name": "PCB for GW-200", "category": null, "supplier": "SUP-PCB", "supplier_part_no": "HP-GW200-R2"},
+    {"item_code": "CONN-USB", "item_name": "USB-C Connector", "category": null, "supplier": "SUP-CONN", "supplier_part_no": "DC-USBC"},
+    {"item_code": "ENC-BOX", "item_name": "Enclosure (spare)", "category": null, "supplier": "SUP-ACME", "supplier_part_no": "AC-BOX1"}
+  ],
+  "bom": {"item": "GW-200", "quantity": 1, "items": {"MCU-STM32": 1, "CAP-100UF": 4, "RES-10K": 10, "PCB-GW200": 1, "CONN-USB": 1}},
+  "stock": {"MCU-STM32": 50, "CAP-100UF": 5000, "RES-10K": 20000, "PCB-GW200": 300, "CONN-USB": 1000, "ENC-BOX": 0},
+  "reserved": {},
+  "purchase_orders": [
+    {"name": "PUR-ORD-2026-00001", "supplier": "SUP-ACME", "transaction_date": "2026-10-01", "items": [
+      {"line": "POI-0001-1", "item_code": "CAP-100UF", "qty": 2000, "rate": 1.20, "schedule_date": "2026-11-05"},
+      {"line": "POI-0001-2", "item_code": "RES-10K", "qty": 10000, "rate": 0.05, "schedule_date": "2026-11-05"}]},
+    {"name": "PUR-ORD-2026-00002", "supplier": "SUP-MCU", "transaction_date": "2026-10-01", "items": [
+      {"line": "POI-0002-1", "item_code": "MCU-STM32", "qty": 800, "rate": 85.00, "schedule_date": "2026-11-04"}]},
+    {"name": "PUR-ORD-2026-00003", "supplier": "SUP-PCB", "transaction_date": "2026-10-02", "items": [
+      {"line": "POI-0003-1", "item_code": "PCB-GW200", "qty": 600, "rate": 42.00, "schedule_date": "2026-11-04"}]},
+    {"name": "PUR-ORD-2026-00004", "supplier": "SUP-CONN", "transaction_date": "2026-10-02", "items": [
+      {"line": "POI-0004-1", "item_code": "CONN-USB", "qty": 500, "rate": 6.50, "schedule_date": "2026-11-12"}]},
+    {"name": "PUR-ORD-2026-00005", "supplier": "SUP-ACME", "transaction_date": "2026-10-05", "items": [
+      {"line": "POI-0005-1", "item_code": "ENC-BOX", "qty": 1000, "rate": 3.00, "schedule_date": "2026-11-16"}]},
+    {"name": "PUR-ORD-2026-00006", "supplier": "SUP-MCU", "transaction_date": "2026-10-06", "items": [
+      {"line": "POI-0006-1", "item_code": "MCU-STM32", "qty": 200, "rate": 85.00, "schedule_date": "2026-11-20"}]}
+  ],
+  "sales_orders": [
+    {"name": "SO-0042", "customer": "Northwind Gateways", "item_code": "GW-200", "qty": 500, "delivery_date": "2026-11-23"},
+    {"name": "SO-0043", "customer": "Contoso IoT", "item_code": "GW-200", "qty": 300, "delivery_date": "2026-12-08"}
+  ],
+  "work_orders": [
+    {"name": "WO-0001", "production_item": "GW-200", "qty": 500, "planned_start_date": "2026-11-10", "sales_order": "SO-0042"},
+    {"name": "WO-0002", "production_item": "GW-200", "qty": 300, "planned_start_date": "2026-11-24", "sales_order": "SO-0043"}
+  ],
+  "shortage_tasks": []
+}

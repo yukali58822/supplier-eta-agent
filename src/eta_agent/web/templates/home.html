@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 id="pending">待審核</h1>
+<p class="sub">系統沒有把握、或會影響客戶的交期變更，等待採購主管決定。依客戶訂單延誤天數排序，最急的在最上面。</p>
+<div class="card table-wrap">
+{% if pending %}
+<table>
+  <thead><tr><th>供應商 / 主旨</th><th>內容</th><th>影響</th><th>客戶延誤</th><th>最近客戶交期</th><th>主要原因</th></tr></thead>
+  <tbody>
+  {% for r in pending %}
+  <tr>
+    <td><a href="/emails/{{ r.message_id|urlencode }}"><strong>{{ r.supplier }}</strong></a><br><span class="muted small">{{ r.subject }}</span></td>
+    <td>{{ r.intent }}</td>
+    <td><span class="badge {{ r.impact[1] }}">{{ r.impact[0] }}</span></td>
+    <td class="num">{% if r.max_delay %}<span class="delay">{{ r.max_delay }} 個工作天</span><br><span class="muted small">{{ r.orders|join('、') }}</span>{% elif r.max_delay == 0 %}不延誤{% else %}—{% endif %}</td>
+    <td>{{ r.customer_date }}</td>
+    <td class="small">{{ r.first_reason }}{% if r.more_reasons %}<span class="muted">（另有 {{ r.more_reasons }} 項）</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<div class="empty">目前沒有待審核的案件。</div>{% endif %}
+</div>
+
+<div class="card" id="inbox">
+  <h2>信件來源：收件資料夾</h2>
+  <p class="small">供應商回信（.eml）放進下面這個資料夾，系統{% if inbox.watching %}每 {{ inbox.interval }} 秒自動{% else %}（目前沒有開啟自動檢查）{% endif %}讀取處理，不需要手動匯入。</p>
+  <dl class="kv small">
+    <dt>資料夾</dt><dd><code>{{ inbox.folder }}</code></dd>
+    <dt>等待處理</dt><dd>{{ inbox.waiting }} 封</dd>
+    <dt>上次檢查</dt><dd>{{ inbox.last_scan_at.strftime('%m/%d %H:%M:%S') if inbox.last_scan_at else '尚未檢查' }}</dd>
+    {% if inbox.failed %}<dt>處理失敗</dt><dd><span class="badge bad">{{ inbox.failed }} 封</span> 在 <code>{{ inbox.failed_folder }}</code>，旁邊的 .error.txt 有原因</dd>{% endif %}
+    {% if inbox.last_error %}<dt>檢查錯誤</dt><dd class="delay">{{ inbox.last_error }}</dd>{% endif %}
+  </dl>
+</div>
+
+<h1 id="recent">最近信件</h1>
+<p class="sub">每封信的處理結果。</p>
+<div class="card table-wrap">
+{% if recent %}
+<table>
+  <thead><tr><th>時間</th><th>主旨</th><th>寄件者</th><th>處理方式</th><th>狀態</th><th>案件</th></tr></thead>
+  <tbody>
+  {% for r in recent %}
+  <tr>
+    <td class="num muted small">{{ r.updated_at|dt }}</td>
+    <td><a href="/emails/{{ r.message_id|urlencode }}">{{ r.subject }}</a></td>
+    <td class="small">{{ r.sender }}</td>
+    <td class="small">{{ r.route }}</td>
+    <td><span class="badge {{ r.status[1] }}">{{ r.status[0] }}</span></td>
+    <td class="small">{{ r.case_id or '—' }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<div class="empty">還沒有處理過信件。把 .eml 放進收件資料夾就會開始處理。</div>{% endif %}
+</div>
+{% endblock %}
